@@ -441,7 +441,7 @@ class TablesTest(TestBase):
                     ]
                 ):
                     try:
-                        conn.execute(table.delete())
+                        conn.execute(table.delete().where(True))
                     except sa.exc.DBAPIError as ex:
                         util.print_(
                             ("Error emptying table %s: %r" % (table, ex)),
