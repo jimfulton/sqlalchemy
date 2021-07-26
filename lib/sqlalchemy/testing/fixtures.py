@@ -380,9 +380,9 @@ class TablesTest(TestBase):
     @classmethod
     def _init_class(cls):
         if cls.run_define_tables == "each":
-            if cls.run_create_tables == "once":
-                cls.run_create_tables = "each"
-            assert cls.run_inserts in ("each", None)
+            cls.run_create_tables = "each"
+            if cls.run_inserts is not None:
+                cls.run_inserts = "each"
 
         cls.other = adict()
         cls.tables = adict()
@@ -409,6 +409,7 @@ class TablesTest(TestBase):
 
     def _setup_each_tables(self):
         if self.run_define_tables == "each":
+            self._tables_metadata = sa.MetaData()
             self.define_tables(self._tables_metadata)
             if self.run_create_tables == "each":
                 self._tables_metadata.create_all(self.bind)
